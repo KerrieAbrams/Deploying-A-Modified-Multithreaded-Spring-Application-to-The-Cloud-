@@ -4,6 +4,7 @@ package edu.wgu.d387_sample_code.rest;
 import edu.wgu.d387_sample_code.convertor.*;
 import edu.wgu.d387_sample_code.entity.ReservationEntity;
 import edu.wgu.d387_sample_code.entity.RoomEntity;
+import edu.wgu.d387_sample_code.i18n.WelcomeMessage;
 import edu.wgu.d387_sample_code.model.request.ReservationRequest;
 import edu.wgu.d387_sample_code.model.response.ReservableRoomResponse;
 import edu.wgu.d387_sample_code.model.response.ReservationResponse;
@@ -153,4 +154,12 @@ public class ReservationResource {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
+    @RequestMapping(path = "/welcome", method = RequestMethod.GET)
+    public String[] welcomeMessage() {
+        WelcomeMessage welcomeMessage = new WelcomeMessage();
+        String[] welcomeMessageArray;
+        welcomeMessageArray = welcomeMessage.getWelcomeMessage();
+        return welcomeMessageArray;
+
+    }
 }
