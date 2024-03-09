@@ -32,13 +32,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping(ResourceConstants.ROOM_RESERVATION_V1)
 @CrossOrigin
 public class ReservationResource {
+
+    static ExecutorService messageExecutor = Executors.newFixedThreadPool(2);
 
     @Autowired
     ApplicationContext context;
@@ -154,12 +159,22 @@ public class ReservationResource {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(path = "/welcome", method = RequestMethod.GET)
-    public String[] welcomeMessage() {
+    @RequestMapping(path = "/welcome", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<String> welcomeMessage() {
         WelcomeMessage welcomeMessage = new WelcomeMessage();
-        String[] welcomeMessageArray;
-        welcomeMessageArray = welcomeMessage.getWelcomeMessage();
-        return welcomeMessageArray;
+        ArrayList<String> messages = new ArrayList<>();
+        welcomeMessage.setWelcomeMessages();
+
+        messageExecutor.submit(() -> {
+            messages.add(welcomeMessage.getMessage1());
+        });
+
+        messageExecutor.submit(() -> {
+            messages.add(welcomeMessage.getMessage2());
+        });
+
+        return messages;
+
 
     }
 }

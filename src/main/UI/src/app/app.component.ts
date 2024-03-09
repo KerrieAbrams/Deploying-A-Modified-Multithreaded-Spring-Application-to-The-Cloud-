@@ -34,8 +34,7 @@ export class AppComponent implements OnInit{
     return this.httpClient.get<string[]>(this.welcomeUrl);
   }
     ngOnInit(){
-
-      this.getWelcomeMessage().subscribe((data) => {this.messages=data})
+      this.getWelcomeMessage().subscribe((data) => {this.messages=data});
       this.roomsearch= new FormGroup({
         checkin: new FormControl(' '),
         checkout: new FormControl(' ')
