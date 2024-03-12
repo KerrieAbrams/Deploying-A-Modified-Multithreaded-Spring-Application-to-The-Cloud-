@@ -22,6 +22,7 @@ export class AppComponent implements OnInit{
   private getUrl:string = this.baseURL + '/room/reservation/v1/';
   private postUrl:string = this.baseURL + '/room/reservation/v1';
   private welcomeUrl:string = this.baseURL + '/room/reservation/v1/welcome';
+  private timeUrl:string = this.baseURL + '/room/reservation/v1/time';
   public submitted!:boolean;
   roomsearch! : FormGroup;
   messages: string[] = [];
@@ -29,11 +30,17 @@ export class AppComponent implements OnInit{
   request!:ReserveRoomRequest;
   currentCheckInVal!:string;
   currentCheckOutVal!:string;
+  times!:string;
 
   getWelcomeMessage():Observable<string[]>{
     return this.httpClient.get<string[]>(this.welcomeUrl);
   }
+
+  getLivestreamTimes():Observable<string>{
+    return this.httpClient.get(this.timeUrl, {responseType: 'text'});
+  }
     ngOnInit(){
+      this.getLivestreamTimes().subscribe( (data) => {this.times=data});
       this.getWelcomeMessage().subscribe((data) => {this.messages=data});
       this.roomsearch= new FormGroup({
         checkin: new FormControl(' '),
