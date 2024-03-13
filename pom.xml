@@ -104,6 +104,18 @@
 				</arguments>
 			</configuration>
 		</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>edu.wgu.d387_sample_code.D387SampleCodeApplication</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
